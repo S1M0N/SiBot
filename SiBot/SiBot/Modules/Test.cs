@@ -7,6 +7,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+
 
 
 namespace SiBot.Modules
@@ -19,37 +21,26 @@ namespace SiBot.Modules
             await Context.Channel.SendMessageAsync("Test Successfull!");
         }
 
-        private bool _galnetEnabled = false;
-        private string[] _allowed = { "on", "off" };
-
+        bool IsActive = false;
         [Command("GalNet")]
-        public async Task galNet0(params string[] _allowed)
+        public async Task galNet0(string input)
         {
-            if (_allowed == off)
+
+            switch (input.ToLower())
             {
-                if (_galnetEnabled == false)
-                {
-                    await Context.Channel.SendMessageAsync("GalNet Alerts Are Already OFF");
-                }
-                else
-                {
-                    _galnetEnabled = false;
-                    await Context.Channel.SendMessageAsync("GalNet Alerts Are Now OFF");
-                }
-            }
-            if (_allowed == on)
-            {
-                if (_galnetEnabled == false)
-                {
-                    await Context.Channel.SendMessageAsync("GalNet Alerts Are Already ON");
-                }
-                else
-                {
-                    _galnetEnabled = false;
-                    await Context.Channel.SendMessageAsync("GalNet Alerts Are Now ON");
-                }
+                case "on":
+                    IsActive = true;
+                    break;
+                case "off":
+                    IsActive = false;
+                    break;
+                case "status":
+                    await Context.Channel.SendMessageAsync(IsActive.ToString());
+                    break;
+                default:
+                    await Context.Channel.SendMessageAsync("Params not valid");
+                    break;
             }
         }
     }
 }
-

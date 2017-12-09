@@ -7,6 +7,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace SiBot
